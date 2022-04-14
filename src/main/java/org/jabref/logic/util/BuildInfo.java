@@ -28,6 +28,7 @@ public final class BuildInfo {
     public final String ieeeAPIKey;
     public final String scienceDirectApiKey;
     public final String minRequiredJavaVersion;
+    public final String BiodiversityHeritageLibraryAPIkey;
     public final boolean allowJava9;
 
     public BuildInfo() {
@@ -56,6 +57,7 @@ public final class BuildInfo {
         ieeeAPIKey = BuildInfo.getValue(properties, "ieeeAPIKey", "5jv3wyt4tt2bwcwv7jjk7pc3");
         scienceDirectApiKey = BuildInfo.getValue(properties, "scienceDirectApiKey", "fb82f2e692b3c72dafe5f4f1fa0ac00b");
         minRequiredJavaVersion = properties.getProperty("minRequiredJavaVersion", "1.8");
+        BiodiversityHeritageLibraryAPIkey = BuildInfo.getValue(properties, "BiodiversityHeritageLibraryAPIkey", "someTestKeyValue");
         allowJava9 = "true".equals(properties.getProperty("allowJava9", "true"));
     }
 
