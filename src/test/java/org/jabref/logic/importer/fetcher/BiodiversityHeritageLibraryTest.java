@@ -1,9 +1,12 @@
 package org.jabref.logic.importer.fetcher;
 
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.Collections;
 
 import org.jabref.logic.importer.FetcherException;
+import org.jabref.logic.importer.ParseException;
 import org.jabref.logic.util.BuildInfo;
 import org.jabref.testutils.category.FetcherTest;
 
@@ -50,5 +53,17 @@ public class BiodiversityHeritageLibraryTest {
         QueryNode queryNode = parser.parse("Foo", NO_EXPLICIT_FIELD);
 
         assertEquals(url, fetcher.getURLForQuery(queryNode).toString());
+    }
+
+    @Test
+    public void getParserWithEmptyResponse() throws ParseException {
+        assertEquals(Collections.emptyList(), fetcher.getParser().parseEntries(""));
+    }
+
+    @Test
+    public void getParserWithNoPublicationResponse() throws ParseException {
+        InputStream stream = BiodiversityHeritageLibraryTest.class.getResourceAsStream("BHL_response_with_no_publication.json");
+
+        assertEquals(Collections.emptyList(), fetcher.getParser().parseEntries(stream));
     }
 }
