@@ -3,13 +3,17 @@ package org.jabref.logic.importer.fetcher;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Collections;
 
 import org.jabref.logic.importer.FetcherException;
 import org.jabref.logic.importer.Parser;
 import org.jabref.logic.importer.SearchBasedParserFetcher;
 import org.jabref.logic.importer.fetcher.transformers.DefaultQueryTransformer;
+import org.jabref.logic.importer.util.JsonReader;
 import org.jabref.logic.util.BuildInfo;
 
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.lucene.queryparser.flexible.core.nodes.QueryNode;
 
@@ -25,7 +29,19 @@ public class BiodiversityHeritageLibrary implements SearchBasedParserFetcher {
 
     @Override
     public Parser getParser() {
-        return null;
+        return inputStream -> {
+            JSONObject response = JsonReader.toJsonObject(inputStream);
+            if (response.isEmpty()) {
+                return Collections.emptyList();
+            }
+
+            JSONArray results = response.getJSONArray("Result");
+            if (results.isEmpty()) {
+                return Collections.emptyList();
+            }
+
+            return null;
+        };
     }
 
     @Override
